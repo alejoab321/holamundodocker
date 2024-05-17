@@ -1,5 +1,6 @@
-version: "3.8"
+version: '3.8' #Es opcional por propósitos históricos docker siempre busca la última
 
+#Servicios para que se puedan comunicar
 services:
   app:
     build: ./frontend
@@ -7,34 +8,21 @@ services:
       - 80:5173
     volumes:
       - ./frontend/src:/app/src
-    environment:
-      VITE_API_URL: http://localhost:3000
   api:
     build: ./backend
     ports:
       - 3000:3000
     environment:
-      DB_URL: mongodb://db/gamify
+      - DB_URL=mongodb://db/gamify
     volumes:
-      - ./backend/app:/app/app
+      - ./backend/app:/app/app #Volumenes anonimos
     depends_on:
       - db
-  api-tests:
-    image: holamundo-api
-    environment:
-      DB_URL: mongodb://db/gamifytest
-    volumes:
-      - ./backend/app:/app/app
-      - ./backend/tests:/app/tests
-    depends_on:
-      - db
-    command: npm test
   db:
     image: mongo:5.0.19-focal
     ports:
       - 27017:27017
     volumes:
-      - gamify:/data/db
-
+      - gamify:/data/db #Volumenes nombrados
 volumes:
   gamify:

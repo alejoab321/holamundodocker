@@ -7,7 +7,9 @@ const cors = require('cors')
 const port = 3000
 
 async function main() {
-    await mongoose.connect(`${process.env.DB_URL}`)
+    console.log("Conexion Exitosa" +`${process.env.DB_URL}`);
+    await mongoose.connect(`${process.env.DB_URL}`,{useNewUrlParser: true, useUnifiedTopology: true})
+    
 }
 
 main()
